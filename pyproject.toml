@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "w4732-final-project"
+version = "1.0.0"
+description = "Final project for W4732 Computer Vision II - Kaggle Facial Keypoints Detection"
+authors = ["cbenge509 <crisbenge@hotmail.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+matplotlib = "^3.8.4"
+scikit-learn = "^1.4.2"
+tqdm = "^4.66.2"
+pandas = "^2.2.2"
+plotly = "^5.20.0"
+argparse = "^1.4.0"
+scipy = "^1.13.0"
+pillow = "^10.3.0"
+keras = "^3.2.1"
+opencv-python = "^4.9.0.80"
+scikit-image = "^0.23.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
