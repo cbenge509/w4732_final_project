@@ -64,7 +64,7 @@ class Xform(object):
 
         # move index to column value for joins
         df = df.reset_index()
-        # create a no-collision hash for the training data (verified no collisions manually on 2/20/2020)
+        # create a no-collision hash for the training data
         df['hash_image'] = df.image.map(lambda x: zlib.adler32(x))
 
         # identify duplicates
@@ -86,7 +86,7 @@ class Xform(object):
         # create an empty dataframe with the proper column names and data types
         fixed_images = df[(df.index == -1)][cols].copy()
 
-        # CDB: 3/6/2020 - added logic to allow override set to define the keypoints vs. mean averaging
+        # added logic to allow override set to define the keypoints vs. mean averaging
         if override_set is None:
             override_present = False
         else:
@@ -104,7 +104,7 @@ class Xform(object):
             # get the pixel array for the duplicated image
             img = df[(df['index'].isin(df_idx))].image.values[0]
 
-            # CDB 3/6/2020 - added logic to allow for override set to define the keypoints vs. mean averaging
+            # added logic to allow for override set to define the keypoints vs. mean averaging
             if (override_present) and (hash_id in override_set.hash_image.values):
                 # use the first matching value in the override_set
                 fixed = pd.DataFrame(override_set[(override_set.hash_image == hash_id)].iloc[0][cols], columns = cols)
@@ -202,7 +202,7 @@ class Xform(object):
 
         augmented = train.copy()
         
-        ## CDB: 2/23/2020 limit flipping to only those with all keypoints present
+        ## limit flipping to only those with all keypoints present
         augmented = augmented[(augmented.isnull().sum(axis = 1) == 0)]
 
         # horizontally flip the images
@@ -216,7 +216,7 @@ class Xform(object):
             mod = self.__symmetric_1Dfold(mod)
             augmented[c] = mod
 
-        # CDB 3/5/2020 : relabel the right and left's!
+        # relabel the right and left's!
         cols = augmented.columns
         rename_cols = {
             'left_eye_inner_corner_x':'right_eye_inner_corner_x',
@@ -259,7 +259,7 @@ class Xform(object):
 
         augmented = train.copy()
         
-        ## CDB: 2/23/2020 limit rotation to only those with all keypoints present
+        ## limit rotation to only those with all keypoints present
         augmented = augmented[(augmented.isnull().sum(axis = 1) == 0)]
         
         cols = [c for c in augmented.columns if c.endswith('_x') | c.endswith('_y')]
@@ -315,7 +315,7 @@ class Xform(object):
 
         brighten = train.copy()
         
-        ## CDB: 2/24/2020 limit brighten and dim to only those images with all 15 keypoints
+        ## limit brighten and dim to only those images with all 15 keypoints
         brighten = brighten[(brighten.isnull().sum(axis = 1) == 0)]
         dim = brighten.copy()
 
@@ -347,7 +347,7 @@ class Xform(object):
 
         noisy = train.copy()
         
-        ## CDB: 2/24/2020 limit noise to only those images with all 15 keypoints
+        ## limit noise to only those images with all 15 keypoints
         noisy = noisy[(noisy.isnull().sum(axis = 1) == 0)]
 
         cols = [c for c in noisy.columns if c.endswith('_x') | c.endswith('_y')]
@@ -387,7 +387,7 @@ class Xform(object):
 
         augmented = train.copy()
         
-        ## CDB: 2/24/2020 limit pixel shifting to only those with all keypoints present
+        ## limit pixel shifting to only those with all keypoints present
         augmented = augmented[(augmented.isnull().sum(axis = 1) == 0)]
         
         cols = [c for c in augmented.columns if c.endswith('_x') | c.endswith('_y')]
@@ -780,8 +780,6 @@ class Xform(object):
                 else:
                     if verbose: print("TRAIN AUGMENTATION skipped by user or pickle file not found.")
 
-            # CDB 3/6/2020 : added notion of an 'override' set to avoid averaging augmented labels with other, potentially bad labels
-            # remove the duplicate images from train, average over the x,y coordinates
 
             #if verbose: print("Dupe removal override_set shape: %s" % str(override_set.shape))
             train = self.__remove_dupe_images(train, override_set = override_set, verbose = verbose)
@@ -791,7 +789,7 @@ class Xform(object):
 
             # HANDLE MISSING LABELS
             # use the average values instead for the "all features" models
-            # CDB : 3/27/2020 - no longer need this as we're going to split the problem into two datasets
+            # no longer need this as we're going to split the problem into two datasets
             #if not drop_missing:
             #    for c in [col for col in train.columns if not col == 'image']:
             #        train[c] = train[c].fillna(np.nanmean(train[c].values))
@@ -836,7 +834,7 @@ class Xform(object):
             overlap = pickle.load(open(__PICKLE_FILE_OVERLAP, "rb"))
             if verbose: print("\tOVERLAP shape: %s" % str(overlap.shape))
 
-        # CDB: 3/27/2020 - split TRAIN and TEST into two problem spaces (all 30 vs. 8 only)
+        # split TRAIN and TEST into two problem spaces (all 30 vs. 8 only)
         if (not os.path.isfile(__PICKLE_FILE_TRAIN30)) or (not os.path.isfile(__PICKLE_FILE_TRAIN8)) or \
                 (not os.path.isfile(__PICKLE_FILE_TEST30)) or (not os.path.isfile(__PICKLE_FILE_TEST8)) or \
                 recalculate_pickle:

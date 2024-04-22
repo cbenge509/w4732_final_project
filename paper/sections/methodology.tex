@@ -1,0 +1,107 @@
+%%%%%%%%% METHODOLOGY
+\section{Methodology}
+\label{sec:methodology}
+
+Our proposed methodology for enhancing facial keypoints detection encompasses a comprehensive framework that integrates several aforementioned strategies: image correction and label fine-tuning, stacked generalization of weak learners leveraging a K-fold $(K=5)$ strategy, and a split pipeline for data processing and training through detection of individual contributing organizers, allowing for exploitation of variance in labeling patterns. The following sections outline each component of our methodology in detail.
+
+\begin{figure*}
+	\centering
+	\begin{subfigure}{0.49\linewidth}
+		%\fbox{\rule{0pt}{2in} \rule{.9\linewidth}{0pt}}
+		\includegraphics[width=0.99\linewidth]{images/train\_pipeline.png}
+		\caption{Training pipeline consists of splitting on partial and complete keypoint examples, training eight separate learners twice (once for each split set), performing generalized stacking on K-flod strategy, and emitting predictions for level-2 metaregressor.}
+		\label{fig:short-a}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.49\linewidth}
+		%\fbox{\rule{0pt}{2in} \rule{.9\linewidth}{0pt}}
+		\includegraphics[width=0.99\linewidth]{images/inference\_pipeline.png}
+		\caption{Inferencing works much the same as our training pipeline, with prediction patterns being split on asks for 15 or 4 labels, generating predictions for each weak learner, and merging those predictions into a single output for input into our level-2 metaregressor.}
+		\label{fig:short-b}
+	\end{subfigure}
+	\caption{Our solution training and inference pipeline that results in state-of-the-art performance for facial keypoints detection.}
+	\label{fig:fig2}
+\end{figure*}
+
+\subsection{Data Preprocessing and Augmentation}
+
+Prior to model training, we perform extensive data preprocessing to improve quality of labels.  Following extensive exploratory data analysis, we performed the following pre-processing steps:
+\begin{itemize}
+	\vspace{-0.2em}\item Removal of two training images that did not contain faces or facial keypoint labels.
+	\vspace{-0.8em}\item 56 images had incorrect keypoint labels.  All received manually corrected labels to establish a better ground truth.
+	\vspace{-0.8em}\item 277 duplicate images identified through hashing; labels were mean averaged and duplicates images removed to reduce bias.
+	\vspace{-0.8em}\item 186 images were dropped due to containing neither all nor only-four keypoints (8 labels). This distinction is how we differntiate our split pipeline later.
+	\vspace{-0.8em}\item all pixel values were normalized $(\bar{x} = \frac{x}{255})$
+\end{itemize}
+
+\pagebreak
+
+To augment the training dataset and improve model generalization, we employ various image augmentation techniques. These include positive and negative rotations, elastic transformation of images, injection of random gaussian noise, brightening and dimming, constrast stretching, image sharpening, horizontal flipping, and Contraste Limited AHE (\href{https://en.wikipedia.org/wiki/Adaptive_histogram_equalization}{adaptive histogram equalization}).  This process, outlined in \cref{fig:datapipeline} below, produced an 18-fold increase in training data available to our weak learners.
+
+\begin{figure}[h]
+	\centering
+	%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+	\includegraphics[width=0.95\linewidth]{images/data\_augmentation\_pipeline.png}
+	\caption{Data augmentation pipeline results in 18x training images and better generalization.}
+	\label{fig:datapipeline}
+\end{figure}
+
+\subsection{Stacked Generalization of Weak Learners}
+
+Our methodology adopts a stacked ensemble architecture~\cite{WOLPERT1992241}, which combines predictions from multiple weak learners to make final predictions. We employ a K-fold strategy to divide the dataset into training and validation sets, ensuring that each model is trained on a diverse subset of the data and evaluated on unseen samples. Predictions of the held-out values are saved to train the final level-2 metaregressor after multiplication-based feature interactions are generated.  See \cref{fig:kfoldstacking} for depiction of this process.
+
+We evaluated dozens of simple neural network architectures for individual performance and eliminate those that either under-perform or have predictions with a high pearson correlation to another model already included in our ensemble. Resultingly, sevel models were chosen as final candidates for our level-1 weak learners.  See \cref{tab:sevenmodels}.
+
+\begin{table}
+	\raggedright
+	\centering
+	\small
+	\begin{tabular}{p{2.3cm}|p{5.7cm}}
+		\toprule
+		\textbf{Model} & \textbf{Description} \\
+		\midrule
+		Conv2D 5-layer & A simple 5-layer 2d CNN. \\
+		\midrule
+		NaimishNet & A 7.4M parameter 2D CNN that learns only one keypoint at a time (\href{https://arxiv.org/abs/1710.00977}{paper}). \\
+		\midrule
+		Conv2D 10-layer & A deeper version of Conv2D 5-layer above. \\
+		\midrule
+		Local2D & A modified version of Conv2D 5-layer whose final layer is a Local2D with global average pooling. \\
+		\midrule
+		Inception V1 & A modified version of Google's \href{https://arxiv.org/abs/1409.4842}{Inception V1} model. \\
+		\midrule
+		Inception v3 & A modified version of Google's \href{https://arxiv.org/abs/1512.00567}{Inception V3} model. \\
+		\midrule
+		LeNet5 & A slightly modified 5-layer version of the \href{http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf}{classic LeNet} model. \\
+		\midrule
+		ResNet50 & A slightly modified version of Microsoft's classic \href{https://arxiv.org/abs/1512.03385}{ResNet50} model. \\
+		\midrule
+		ResNet (custom) & A customized, greatly simplified ResNet model architecture. \\
+		\midrule
+		ResNeXt50 & An implementation of the full \href{https://arxiv.org/abs/1611.05431}{ResNeXt50} model. \\
+		\bottomrule
+	\end{tabular}
+	\caption{The seven weak-learner models used in our ensemble.}
+	\label{tab:sevenmodels}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+	\includegraphics[width=0.97\linewidth]{images/kfold\_stacking.png}
+	\caption{K-fold stacked generalization strategy usuing $(K=5)$ is used to train our level-2 (linear) metaregressor.}
+	\label{fig:kfoldstacking}
+\end{figure}
+
+\subsection{Split Pipeline for Data Processing and Training}
+
+Recognizing that individual data organizers label facial keypoints in slightly different ways was a key insight for improving the performance of this solution.  The organizer who prepared the labels with only four landmarks had a slightly different idea of where the tip of the nose or upper lip were located, for example, than the organizer who prepared the examples with all landmarks present.  To further exploit the variance in labeling patterns and enhance the diversity of the trained models, we employ a split pipeline for data processing and training. This involves splitting and training images with only four keypoints separate of those with all keypoints.  By training separate models on data subsets organized by different criteria, we aim to capture the underlying patterns specific to each organizer and improve the overall performance of the ensemble.
+
+\subsection{Evaluation Metrics}
+
+We evaluate the performance of our methodology using the Root Mean Squared Error (RMSE) metric, which quantifies the average deviation between the predicted and ground truth keypoints across all facial images in the test set. Additionally, we analyze the performance of individual keypoints to assess the robustness and accuracy of the trained models across different facial landmarks.
+
+\subsection{Experiment Setup}
+
+We conducted hundreds of experiments on candidate models against our benchmark facial keypoint detection dataset provided in the Facial Keypoints Detection Kaggle competition.  The original dataset was comprised of 7,049 labeled training samples and 1,783 test images.  Of the 7,049 labeled images, only 2,140 ($\approx 30.4\%$) were provided with annotated labels for all 15 facial landmarks.  Following our methodology listed above, we pre-processed all image data and pre-trained the seven selected models and final level-2 metaregressor model.  Finally, all test images were run through the pipeline to emit a final $(X,Y)$ coordinate for each landmark and were submitted to the private leaderboard on Kaggle.  All data processing, training, inference, and evaluation were performed on a local desktop with a single SSD and 24GiB of RAM provided thorugh an NVidia 4090 RTX card.
+

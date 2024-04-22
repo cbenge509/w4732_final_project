@@ -56,56 +56,138 @@
 @String(CVPRW= {CVPRW})
 @String(CSVT = {IEEE TCSVT})
 
-
-
-@misc{Authors14,
- author = {FirstName LastName},
- title = {The frobnicatable foo filter},
- note = {Face and Gesture submission ID 324. Supplied as supplemental material {\tt fg324.pdf}},
- year = 2014
+@article{WANG201850,
+	title = {Facial feature point detection: A comprehensive survey},
+	journal = {Neurocomputing},
+	volume = {275},
+	pages = {50-65},
+	year = {2018},
+	issn = {0925-2312},
+	doi = {https://doi.org/10.1016/j.neucom.2017.05.013},
+	url = {https://www.sciencedirect.com/science/article/pii/S0925231217308202},
+	author = {Nannan Wang and Xinbo Gao and Dacheng Tao and Heng Yang and Xuelong Li},
+	keywords = {Deep learning, Face alignment, Facial feature point detection, Facial landmark localization},
+	abstract = {This paper presents a comprehensive survey of facial feature point detection with the assistance of abundant manually labeled images. Facial feature point detection favors many applications such as face recognition, animation, tracking, hallucination, expression analysis and 3D face modeling. Existing methods are categorized into two primary categories according to whether there is the need of a parametric shape model: parametric shape model-based methods and nonparametric shape model-based methods. Parametric shape model-based methods are further divided into two secondary classes according to their appearance models: local part model-based methods (e.g. constrained local model) and holistic model-based methods (e.g. active appearance model). Nonparametric shape model-based methods are divided into several groups according to their model construction process: exemplar-based methods, graphical model-based methods, cascaded regression-based methods, and deep learning based methods. Though significant progress has been made, facial feature point detection is still limited in its success by wild and real-world conditions: large variations across poses, expressions, illuminations, and occlusions. A comparative illustration and analysis of representative methods provides us a holistic understanding and deep insight into facial feature point detection, which also motivates us to further explore more promising future schemes.}
 }
 
-@misc{Authors14b,
- author = {FirstName LastName},
- title = {Frobnication tutorial},
- note = {Supplied as supplemental material {\tt tr.pdf}},
- year = 2014
+@INPROCEEDINGS{9065279,
+	author={Colaco, Savina and Han, Dong Seog},
+	booktitle={2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)}, 
+	title={Facial Keypoint Detection with Convolutional Neural Networks}, 
+	year={2020},
+	volume={},
+	number={},
+	pages={671-674},
+	keywords={Face;Face recognition;Predictive models;Webcams;Convolutional neural networks;Data models;Computer vision;facial keypoint detection;convolutional neural network},
+	doi={10.1109/ICAIIC48513.2020.9065279}}
+
+@article{VIOLAANDJONES2014,
+	author={Viola, Paul and Jones, Michael J},
+	journal = {International Journal of Computer Vision},
+	year = 2004,
+	title = {Robust Real-Time Face Detection},
+	pages={137-154},
+	volume={57},
+	number={2},
+	abstract = {This paper describes a face detection framework that is capable of processing images extremely rapidly while achieving high detection rates. There are three key contributions. The first is the introduction of a new image representation called the “Integral Image” which allows the features used by our detector to be computed very quickly. The second is a simple and efficient classifier which is built using the AdaBoost learning algorithm (Freund and Schapire, 1995) to select a small number of critical visual features from a very large set of potential features. The third contribution is a method for combining classifiers in a “cascade” which allows background regions of the image to be quickly discarded while spending more computation on promising face-like regions. A set of experiments in the domain of face detection is presented. The system yields face detection performance comparable to the best previous systems (Sung and Poggio, 1998; Rowley et al., 1998; Schneiderman and Kanade, 2000; Roth et al., 2000). Implemented on a conventional desktop, face detection proceeds at 15 frames per second.},
+	doi = {https://doi.org/10.1023/B:VISI.0000013087.49260.fb},
+	url = {https://link.springer.com/article/10.1023/B:VISI.0000013087.49260.fb},
+	issn = {1573-1405}
 }
 
-@article{Alpher02,
-author = {FirstName Alpher},
-title = {Frobnication},
-journal = PAMI,
-volume = 12,
-number = 1,
-pages = {234--778},
-year = 2002
+@article{LECUN2015NATURE,
+	author = {LeCun, Yann, Bengio, Yoshua and Hinton, Geoffrey},
+	journal = {Nature},
+	year = 2015,
+	title = {Deep learning},
+	pages = {436-444},
+	volume = {521},
+	abstract = {Deep learning allows computational models that are composed of multiple processing layers to learn representations of data with multiple levels of abstraction. These methods have dramatically improved the state-of-the-art in speech recognition, visual object recognition, object detection and many other domains such as drug discovery and genomics. Deep learning discovers intricate structure in large data sets by using the backpropagation algorithm to indicate how a machine should change its internal parameters that are used to compute the representation in each layer from the representation in the previous layer. Deep convolutional nets have brought about breakthroughs in processing images, video, speech and audio, whereas recurrent nets have shone light on sequential data such as text and speech.},
+	doi = {10.1038/nature14539},
+	url = {https://www.nature.com/articles/nature14539},
+	issn = {7553}
 }
 
-@article{Alpher03,
-author = {FirstName Alpher and  FirstName Fotheringham-Smythe},
-title = {Frobnication revisited},
-journal = {Journal of Foo},
-volume = 13,
-number = 1,
-pages = {234--778},
-year = 2003
+@InProceedings{10.1007/978-3-319-10599-4_7,
+	author="Zhang, Zhanpeng
+	and Luo, Ping
+	and Loy, Chen Change
+	and Tang, Xiaoou",
+	editor="Fleet, David
+	and Pajdla, Tomas
+	and Schiele, Bernt
+	and Tuytelaars, Tinne",
+	title="Facial Landmark Detection by Deep Multi-task Learning",
+	booktitle="Computer Vision -- ECCV 2014",
+	year="2014",
+	publisher="Springer International Publishing",
+	address="Cham",
+	pages="94--108",
+	abstract="Facial landmark detection has long been impeded by the problems of occlusion and pose variation. Instead of treating the detection task as a single and independent problem, we investigate the possibility of improving detection robustness through multi-task learning. Specifically, we wish to optimize facial landmark detection together with heterogeneous but subtly correlated tasks, e.g. head pose estimation and facial attribute inference. This is non-trivial since different tasks have different learning difficulties and convergence rates. To address this problem, we formulate a novel tasks-constrained deep model, with task-wise early stopping to facilitate learning convergence. Extensive evaluations show that the proposed task-constrained learning (i) outperforms existing methods, especially in dealing with faces with severe occlusion and pose variation, and (ii) reduces model complexity drastically compared to the state-of-the-art method based on cascaded deep model [21].",
+	isbn="978-3-319-10599-4"
 }
 
-@article{Alpher04,
-author = {FirstName Alpher and FirstName Fotheringham-Smythe and FirstName Gamow},
-title = {Can a machine frobnicate?},
-journal = {Journal of Foo},
-volume = 14,
-number = 1,
-pages = {234--778},
-year = 2004
+@inproceedings{Zhang_2015,
+	title={Appearance-based gaze estimation in the wild},
+	url={http://dx.doi.org/10.1109/CVPR.2015.7299081},
+	DOI={10.1109/cvpr.2015.7299081},
+	booktitle={2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+	publisher={IEEE},
+	author={Zhang, Xucong and Sugano, Yusuke and Fritz, Mario and Bulling, Andreas},
+	year={2015},
+	month=jun }
+
+@INPROCEEDINGS{6619290,
+	author={Sun, Yi and Wang, Xiaogang and Tang, Xiaoou},
+	booktitle={2013 IEEE Conference on Computer Vision and Pattern Recognition}, 
+	title={Deep Convolutional Network Cascade for Facial Point Detection}, 
+	year={2013},
+	volume={},
+	number={},
+	pages={3476-3483},
+	keywords={Face;Feature extraction;Convolutional codes;Shape;Training;Detectors;Accuracy;Convolutional Network;Facial Point Detection},
+	doi={10.1109/CVPR.2013.446}}
+
+@ARTICLE{1717463,
+	author={Ahonen, T. and Hadid, A. and Pietikainen, M.},
+	journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+	title={Face Description with Local Binary Patterns: Application to Face Recognition}, 
+	year={2006},
+	volume={28},
+	number={12},
+	pages={2037-2041},
+	keywords={Face recognition;Face detection;Principal component analysis;Image texture analysis;Data mining;Image representation;Feature extraction;Linear discriminant analysis;Robustness;Lighting;Facial image representation;local binary pattern;component-based face recognition;texture features;face misalignment.},
+	doi={10.1109/TPAMI.2006.244}}
+
+@misc{wu2017robust,
+	title={Robust Facial Landmark Detection under Significant Head Poses and Occlusion}, 
+	author={Yue Wu and Qiang Ji},
+	year={2017},
+	eprint={1709.08127},
+	archivePrefix={arXiv},
+	primaryClass={cs.CV}
 }
 
-@inproceedings{Alpher05,
-author = {FirstName Alpher and FirstName Gamow},
-title = {Can a computer frobnicate?},
-booktitle = CVPR,
-pages = {234--778},
-year = 2005
+@misc{liu2015deep,
+	title={Deep Learning Face Attributes in the Wild}, 
+	author={Ziwei Liu and Ping Luo and Xiaogang Wang and Xiaoou Tang},
+	year={2015},
+	eprint={1411.7766},
+	archivePrefix={arXiv},
+	primaryClass={cs.CV}
+}
+
+@article{WOLPERT1992241,
+	title = {Stacked generalization},
+	journal = {Neural Networks},
+	volume = {5},
+	number = {2},
+	pages = {241-259},
+	year = {1992},
+	issn = {0893-6080},
+	doi = {https://doi.org/10.1016/S0893-6080(05)80023-1},
+	url = {https://www.sciencedirect.com/science/article/pii/S0893608005800231},
+	author = {David H. Wolpert},
+	keywords = {Generalization and induction, Combining generalizers, Learning set preprocessing, cross-validation, Error estimation and correction},
+	abstract = {This paper introduces stacked generalization, a scheme for minimizing the generalization error rate of one or more generalizers. Stacked generalization works by deducing the biases of the generalizer(s) with respect to a provided learning set. This deduction proceeds by generalizing in a second space whose inputs are (for example) the guesses of the original generalizers when taught with part of the learning set and trying to guess the rest of it, and whose output is (for example) the correct guess. When used with multiple generalizers, stacked generalization can be seen as a more sophisticated version of cross-validation, exploiting a strategy more sophisticated than cross-validation's crude winner-takes-all for combining the individual generalizers. When used with a single generalizer, stacked generalization is a scheme for estimating (and then correcting for) the error of a generalizer which has been trained on a particular learning set and then asked a particular question. After introducing stacked generalization and justifying its use, this paper presents two numerical experiments. The first demonstrates how stacked generalization improves upon a set of separate generalizers for the NETtalk task of translating text to phonemes. The second demonstrates how stacked generalization improves the performance of a single surface-fitter. With the other experimental evidence in the literature, the usual arguments supporting cross-validation, and the abstract justifications presented in this paper, the conclusion is that for almost any real-world generalization problem one should use some version of stacked generalization to minimize the generalization error rate. This paper ends by discussing some of the variations of stacked generalization, and how it touches on other fields like chaos theory.}
 }

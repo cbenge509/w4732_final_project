@@ -1,0 +1,33 @@
+%%%%%%%%% RESULTS
+\section{Results}
+\label{sec:results}
+
+Our results demonstrate the effectiveness of the proposed methodology in improving facial keypoints detection performance, yielding competitive results in the Facial Keypoints Detection Kaggle competition. We achieved a final RMSE of 1.28637, securing second place in the competition. Notably, our solution was within an RMSE of 0.00401 of tying for first place, showcasing the effectiveness of our approach.
+
+\begin{figure}[hbt!]
+	\centering
+	%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+	\includegraphics[width=0.97\linewidth]{images/final\_submission.jpg}
+	\caption{A final submission scoring 1.28637 RMSE on the private leaderboard}
+	\label{fig:finalsubmission}
+\end{figure}
+
+\subsection{Ensemble Performance}
+
+Our winning solution was constructed as an ensemble of seven weak learners, each contributing to the final prediction. Through stacked generalization, we combined predictions from multiple models to improve overall performance. The ensemble approach proved highly effective, improving our score by 0.06546 RMSE, allowing us to achieve a significant reduction compared to individual models and putting us within a very small marin for a first-place solution.
+
+\subsection{Best Performing Weak Learner}
+
+Among the ensemble of models, the Conv2D 10-layer model emerged as the single best-performing weak learner. This model, leveraging a convolutional neural network architecture with ten layers, achieved an RMSE of 1.35183. Despite being outperformed by the ensemble, this model's performance highlights the effectiveness of deep learning techniques in facial keypoints detection.
+
+\subsection{Comparison with First Place Solution}
+
+While our solution secured second place in the competition, we were narrowly edged out by the first place winner, whose solution achieved an RMSE of 1.28236 and was significantly more complicated. The small difference of 0.00401 RMSE points underscores the competitiveness of our approach, showcasing its effectiveness in addressing the challenges of facial keypoints detection.
+
+\subsection{Limitations}
+
+Despite our competitive performance, our methodology has limitations. The reliance on a diverse ensemble of models introduces additional computational complexity and may require significant resources for training and inference. Additionally, a lot of pre-processing and selective data augmentation was required to achieve state-of-the-art performance.  Regardless, careful data augmentation and cleaning is a necessity - our pre-processing was worth $\approx 0.25$ RMSE along on the best performing single model.  Finally, while our solution achieved high accuracy on the benchmark dataset, its generalizability to real-world scenarios and diverse populations will require further validation.
+
+\section{Conclusion \& Future Direction}
+
+Moving forward, there are several avenues for further research and improvement. Fine-tuning model architectures, exploring novel ensemble techniques, evaluating transfer learning options on larger pre-trained models, and incorporating additional data sources could all contribute to enhancing the robustness and generalization capabilities of our approach. Additionally, evaluating our methodology on larger and more diverse datasets could provide valuable insights into its performance across different demographic groups and environmental conditions.

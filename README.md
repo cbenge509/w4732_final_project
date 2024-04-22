@@ -74,6 +74,8 @@ The training pipeline begins with applying cleaning and augmentation to all imag
 * Contrast Limited AHE (i.e. [adaptive histogram equalization](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization)) used with clipping of 0.03.
 * Horizontal flipping / mirroring.
 
+<img src="./images/data_augmentation_pipeline.png" width="500" />
+
 Many other augmentations were experimented with, such as horizontal blurring, laplacian smoothing, etc. but all resulted in adverse impact to prediction error and were eliminated after empirical testing.
 
 The TRAIN dataset provided by the competition organizers appears to be derived from two distinct sources: one where all 15 landmark labels are present, and another where only 4 are present (note: there are a few images thorughout that have some other count of missing label information, but they are the exception).  Initially, I was able to achieve a single best-model RMSE score of **1.43812** by addressing all missing labels through interpoloation of their `np.nanmean()` keypoint average location.
@@ -113,50 +115,7 @@ The inferencing pipeline behavior is essentially duplicative of the training pro
 
 A [Stacked generalization](https://www.sciencedirect.com/science/article/abs/pii/S0893608005800231) approach was used to leverage the strengths of each model to produce a final prediction.  To avoid overfitting our level-1 regressors, we used K-fold (K=5) cross-validation which added regularization to our final metaregressor.  At each k-th iteration, one k fold is held out to act as the validation set for training.  The predictions from each model on each k-th interval are stored and used at training time for the final metaregressor.  Prior to final metaregressor training, simple multiplication feature interactions are added on each of the 30 (or 8) predictions made by the level-1 regressors.  Finally, the linear metaregressor is fit to all values and used to predict the final submission values. 
 
-![train pipeline](/images/kfold_stacking.png)
-
----
-
-Models Architectures
-=====================
-
-Below are reference model architecture depictions for the ten Level-1 regressors.  Source code for each can be viewed in the ``utils\model_zoo.py`` file.
-
-## Conv2D 5-Layer
-
-<img src="./models/KERAS_CONVNET5/ALL_FEATURES_30_model_plot.png" width="400"/>
-
-## Inception V1
-
-<img src="./models/KERAS_INCEPTION/inception_ALL_FEATURES_30_plot.png" width="800"/>
-
-## Inception V3
-
-<img src="./models/KERAS_INCEPTIONV3/inception_ALL_FEATURES_30_plot.png" width="500"/>
-
-## Conv2D 10-Layer
-
-<img src="./models/KERAS_KAGGLE1/ALL_FEATURES_30_model_plot.png" width="300"/>
-
-## Local2D
-
-<img src="./models/KERAS_KAGGLE2/ALL_FEATURES_30_model_plot.png" width="800" />
-
-## NaimishNet
-
-<img src="./models/KERAS_NAIMISHNET/NaimishNet_left_eye_center_30_model_plot.png" width="800" />
-
-## LeNet5
-
-<img src="./models/KERAS_LENET5/ALL_FEATURES_30_model_plot.png" width="500"/>
-
-## ResNet50
-
-<img src="./models/KERAS_RESNET50/ALL_FEATURES_30_model_plot.png" width="300"/>
-
-## ResNeXt50
-
-<img src="./models/KERAS_RESNEXT50/ALL_FEATURES_30_model_plot.png" width="300"/>
+<img src="./images/kfold_stacking.png" width="800" />
 
 ---
 
